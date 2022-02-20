@@ -10,8 +10,8 @@ def update():
     for e in dirs:
         dir =  os.path.join(dagsfolder, e)
         if os.path.isdir(dir):
-            subprocess.run('git reset --hard HEAD', cwd = dir)
-            subprocess.run('git pull', cwd = dir)
+            subprocess.run(['git', 'reset', '--hard', 'HEAD'], cwd = dir)
+            subprocess.run(['git', 'pull'], cwd = dir)
     return {'status': 'success'}, 200
 
 @app.route('/cleanall', methods=['POST'])
@@ -20,9 +20,9 @@ def cleanall():
     for e in dirs:
         dir =  os.path.join(dagsfolder, e)
         if os.path.isdir(dir):
-            subprocess.run('git reset --hard HEAD', cwd = dir)
-            subprocess.run('git clean -f -d', cwd = dir)
-            subprocess.run('git pull', cwd = dir)
+            subprocess.run(['git', 'reset', '--hard', 'HEAD'], cwd = dir)
+            subprocess.run(['git', 'clean', '-f', '-d'], cwd = dir)
+            subprocess.run(['git', 'pull'], cwd = dir)
     return {'status': 'success'}, 200
 
 @app.route('/connect', methods=['POST'])
