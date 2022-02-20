@@ -30,3 +30,6 @@ def connect():
     data = dict(request.form)
     subprocess.run(['git', 'clone', data['url']], cwd = dagsfolder)
     return {'status': 'success'}, 200
+
+if __name__ == "__main__":
+    app.run()
