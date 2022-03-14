@@ -37,8 +37,15 @@ def connect():
     data = dict(request.form)
     if 'token' in data and data['token'] != token:
         return {'status': 'Unauthorized'}, 401
-    subprocess.run(['git', 'clone', data['url'], '--config', 'core.sshCommand="ssh', '-i', '~/.ssh/keyset"'], cwd = dagsfolder)
+    subprocess.run(['git', 'clone', data['url']], cwd = dagsfolder)
     return {'status': 'OK'}, 200
+
+@app.route('/sslkey', methods=['GET'])
+def getSSLKey():
+    data = dict(request.form)
+    if 'token' in data and data['token'] != token:
+        return {'status': 'Unauthorized'}, 401
+    return "TEREKERE", 400
 
 if __name__ == "__main__":
     app.run(host = '0.0.0.0')
