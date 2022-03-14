@@ -45,7 +45,7 @@ def getSSLKey():
     data = dict(request.form)
     if 'token' in data and data['token'] != token:
         return {'status': 'Unauthorized'}, 401
-    fullkey = open('/root/.ssh/keyset.pub', encodiing = 'utf-8').readline()
+    fullkey = open('/root/.ssh/keyset.pub', encoding = 'utf-8').readline()
     return fullkey.strip(), 400
 
 if __name__ == "__main__":
