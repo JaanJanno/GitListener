@@ -10,7 +10,7 @@ def update():
     data = dict(request.headers)
     if not 'Token' in data or data['Token'] != token:
         return {'status': 'Unauthorized'}, 401
-    if not '.git' on os.listdir(dagsfolder):
+    if not '.git' in os.listdir(dagsfolder):
         return {'status': 'Not Found'}, 404
     subprocess.run(['git', 'reset', '--hard', 'HEAD'], cwd = dagsfolder)
     subprocess.run(['git', 'pull'], cwd = dagsfolder)
