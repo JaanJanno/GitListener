@@ -10,12 +10,10 @@ def update():
     data = dict(request.headers)
     if not 'Token' in data or data['Token'] != token:
         return {'status': 'Unauthorized'}, 401
-    dirs = os.listdir(dagsfolder)
-    for e in dirs:
-        dir =  os.path.join(dagsfolder, e)
-        if os.path.isdir(dir):
-            subprocess.run(['git', 'reset', '--hard', 'HEAD'], cwd = dir)
-            subprocess.run(['git', 'pull'], cwd = dir)
+    if not '.git' on os.listdir(dagsfolder):
+        return {'status': 'Not Found'}, 404
+    subprocess.run(['git', 'reset', '--hard', 'HEAD'], cwd = dagsfolder)
+    subprocess.run(['git', 'pull'], cwd = dagsfolder)
     return {'status': 'OK'}, 200
 
 @app.route('/cleanall', methods=['POST'])
@@ -23,13 +21,7 @@ def cleanall():
     data = dict(request.headers)
     if not 'Token' in data or data['Token'] != token:
         return {'status': 'Unauthorized'}, 401
-    dirs = os.listdir(dagsfolder)
-    for e in dirs:
-        dir =  os.path.join(dagsfolder, e)
-        if os.path.isdir(dir):
-            subprocess.run(['git', 'reset', '--hard', 'HEAD'], cwd = dir)
-            subprocess.run(['git', 'clean', '-f', '-d'], cwd = dir)
-            subprocess.run(['git', 'pull'], cwd = dir)
+    subprocess.run(['rm', '-rf', os.path.join(dagsfolder, '*')])
     return {'status': 'OK'}, 200
 
 @app.route('/connect', methods=['POST'])
@@ -37,8 +29,10 @@ def connect():
     data = dict(request.headers)
     if not 'Token' in data or data['Token'] != token:
         return {'status': 'Unauthorized'}, 401
+    if len(os.listdir(dagsfolder)) > 0:
+        return {'status': 'Conflict'}, 409
     url = data['Url']
-    subprocess.run(['git', 'clone', url, '--config', 'core.sshCommand=ssh -i ~/.ssh/keyset'], cwd = dagsfolder)
+    subprocess.run(['git', 'clone', url, '.', '--config', 'core.sshCommand=ssh -i ~/.ssh/keyset'], cwd = dagsfolder)
     return {'status': 'OK'}, 200
 
 @app.route('/sslkey', methods=['GET'])
