@@ -21,10 +21,8 @@ def cleanall():
     data = dict(request.headers)
     if not 'Token' in data or data['Token'] != token:
         return {'status': 'Unauthorized'}, 401
-    print(' '.join(['rm', '-rf', dagsfolder + '/*']))
-    print(' '.join(['rm', '-rf', dagsfolder + '/.*']))
-    subprocess.call(['rm', '-rf', dagsfolder + '/*'])
-    subprocess.call(['rm', '-rf', dagsfolder + '/.*'])
+    subprocess.call(['rm', '-rf', dagsfolder])
+    subprocess.call(['mkdir', dagsfolder])
     return {'status': 'OK'}, 200
 
 @app.route('/connect', methods=['POST'])
