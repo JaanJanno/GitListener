@@ -7,7 +7,7 @@ token = open('token.cfg', encoding = 'utf-8').readline().strip()
 
 @app.route('/update', methods=['POST'])
 def update():
-    data = dict(request.form)
+    data = dict(request.headers)
     if not 'token' in data or data['token'] != token:
         return {'status': 'Unauthorized'}, 401
     dirs = os.listdir(dagsfolder)
@@ -20,7 +20,7 @@ def update():
 
 @app.route('/cleanall', methods=['POST'])
 def cleanall():
-    data = dict(request.form)
+    data = dict(request.headers)
     if not 'token' in data or data['token'] != token:
         return {'status': 'Unauthorized'}, 401
     dirs = os.listdir(dagsfolder)
@@ -34,7 +34,7 @@ def cleanall():
 
 @app.route('/connect', methods=['POST'])
 def connect():
-    data = dict(request.form)
+    data = dict(request.headers)
     if not 'token' in data or data['token'] != token:
         return {'status': 'Unauthorized'}, 401
     url = data['url']
@@ -43,7 +43,7 @@ def connect():
 
 @app.route('/sslkey', methods=['GET'])
 def getSSLKey():
-    data = dict(request.form)
+    data = dict(request.headers)
     if not 'token' in data or data['token'] != token:
         return {'status': 'Unauthorized'}, 401
     fullkey = open('/root/.ssh/keyset.pub', encoding = 'utf-8').readline()
