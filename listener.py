@@ -42,7 +42,7 @@ def getSSLKey():
     if not 'Token' in data or data['Token'] != token:
         return {'status': 'Unauthorized'}, 401
     fullkey = open('/root/.ssh/keyset.pub', encoding = 'utf-8').readline()
-    return fullkey.strip(), 400
+    return fullkey.strip(), 200
 
 if __name__ == "__main__":
     app.run(host = '0.0.0.0')
