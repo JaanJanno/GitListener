@@ -41,7 +41,7 @@ def getSSLKey():
     data = dict(request.headers)
     if not 'Token' in data or data['Token'] != token:
         return {'status': 'Unauthorized'}, 401
-    fullkey = open('/util/.ssh/keyset.pub', encoding = 'utf-8').readline()
+    fullkey = open('/home/airflow/.ssh/keyset.pub', encoding = 'utf-8').readline()
     return fullkey.strip(), 200
 
 if __name__ == "__main__":
