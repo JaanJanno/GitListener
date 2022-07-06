@@ -2,8 +2,8 @@ from flask import Flask, request
 import subprocess, os.path
 app = Flask(__name__)
 
-dagsfolder = open('/util/GitListener/dagsfolder.cfg', encoding = 'utf-8').readline().strip()
-token = open('/util/GitListener/token.cfg', encoding = 'utf-8').readline().strip()
+dagsfolder = open('/home/airflow/airflow/dags/GitListener/dagsfolder.cfg', encoding = 'utf-8').readline().strip()
+token = open('/home/airflow/airflow/dags/GitListener/token.cfg', encoding = 'utf-8').readline().strip()
 
 @app.route('/update', methods=['POST'])
 def update():
