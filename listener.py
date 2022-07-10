@@ -33,6 +33,14 @@ def connect():
     if len(os.listdir(dagsfolder)) > 0:
         return {'status': 'Conflict'}, 409
     url = data['Url']
+    if '@' in url:
+        host = url.split('@')[1].split(':')[0]
+        if not os.path.exists('/home/airflow/.ssh/known_hosts'):
+            subprocess.run(['touch', '/home/airflow/.ssh/known_hosts'])
+        content = '\n' + '\n'.join(open('/home/airflow/.ssh/known_hosts').readlines())
+        if not ('\n' + host + ' ') in content:
+            with open('/home/airflow/.ssh/known_hosts', "a") as outfile:
+                subprocess.run(['ssh-keyscan', host], stdout = outfile)
     subprocess.run(['git', 'clone', url, '.', '--config', 'core.sshCommand=ssh -i ~/.ssh/keyset'], cwd = dagsfolder)
     return {'status': 'OK'}, 200
 
